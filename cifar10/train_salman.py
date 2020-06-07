@@ -31,8 +31,8 @@ from HeatSmoothing.cifar10.train_utils.loss_functions import KL_loss
 from statistics import mean
 
 # import attack
-from GaussianNets.cifar10.attack.salman_attack import salman_attacks
-from smoothing_adversarial.code.train_utils import requires_grad_
+from HeatSmoothing.cifar10.attack import salman_attacks
+from HeatSmoothing.cifar10.train_utils.salman_utils import requires_grad_
 
 # -------------
 # Initial setup
