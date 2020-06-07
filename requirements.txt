@@ -1,0 +1,2 @@
+python3
+PyTorch v1.5.0 (w/ CUDA version 10.2). Information available at https://pytorch.org/get-started/locally/
