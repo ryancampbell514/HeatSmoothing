@@ -22,17 +22,11 @@ import pandas as pd
 import os
 
 # put these modules on your $PYTHONPATH
-from flashlight import dataloader
-from flashlight.dataloader import cutout, optim_cutout
-from flashlight import cvmodels as models
-from flashlight.utils.loaders import get_model
-from flashlight.experiment_template.loss_functions import KL_loss, cw_loss
-
-# for plotting...
-import pickle as pkl
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+from HeatSmoothing.cifar10.train_utils import dataloader
+from HeatSmoothing.cifar10.train_utils.dataloader import cutout, optim_cutout
+from HeatSmoothing.cifar10.train_utils import cvmodels as models
+from HeatSmoothing.cifar10.train_utils.loaders import get_model
+from HeatSmoothing.cifar10.train_utils.loss_functions import KL_loss, cw_loss
 
 from statistics import mean
 

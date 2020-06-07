@@ -1,4 +1,4 @@
-"""This module parses all command line arguments to main.py"""
+"""This module parses all command line arguments to {train,train_cohen,train_salman}.py"""
 import argparse
 import numpy as np
 

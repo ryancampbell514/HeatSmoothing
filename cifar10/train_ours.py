@@ -14,19 +14,13 @@ from torch.autograd import Variable, grad
 import torchnet as tnt
 import torch.nn.functional as F
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from HeatSmoothing.cifar10.train_utils import cvmodels as models
+from HeatSmoothing.cifar10.train_utils.loaders import get_model
+from HeatSmoothing.cifar10.train_utils import dataloader
+from HeatSmoothing.cifar10.train_utils.dataloader import cutout
+from HeatSmoothing.cifar10.train_utils.loss_functions import KL_loss
 
-from flashlight import cvmodels as models
-from flashlight.utils.loaders import get_model
-from flashlight import dataloader
-from flashlight.dataloader import cutout, optim_cutout
-from flashlight.experiment_template.loss_functions import KL_loss
-#from flashlight.cvmodels.mnist import LeNet
-
-#from GaussianNets.utils import get_jacobian
+import argparse
 
 parser = argparse.ArgumentParser('Gaussian Smoothing')
 parser.add_argument('--info',type=str,default=None,metavar='INFO')
@@ -44,12 +38,12 @@ parser.add_argument('--add-gaussian',type=bool, default=False, metavar='G',
 parser.add_argument('--dataset', type=str,help='dataset (default: "cifar10")',
         default='cifar10', metavar='DS',
         choices=['cifar10','cifar100', 'TinyImageNet','Fashion','mnist','svhn'])
-parser.add_argument('--data-dir', type=str, required=False, default='/home/campus/oberman-lab/data', metavar='DIR',
+parser.add_argument('--data-dir', type=str, required=True, default='', metavar='DIR',
         help='data storage directory')
 parser.add_argument('--model', type=str, default='ResNet34', metavar='MOD')
-parser.add_argument('--model-dir', type=str,
-        default='/home/campus/ryan.campbell2/GaussianNets/cifar10/logs/models/base-model',
-        metavar='DIR', help='The directory of the initial model.')
+parser.add_argument('--init-model-dir', type=str, required=True, default='',
+        metavar='DIR', help='The directory of the initial model trained with train.py')
+parser.add_argument('--pth-name', type=str, default='best.pth.tar')
 parser.add_argument('--model-args',type=str,
         default="{}",metavar='ARGS',
         help='A dictionary of extra arguments passed to the model.'
@@ -69,8 +63,6 @@ parser.add_argument('--last-layer-nonlinear',
         action='store_true', default=False)
 parser.add_argument('--classes',type=int, default=10,
         help='How many classes the model has')
-
-parser.add_argument('--pth-name', type=str, default='best.pth.tar')
 parser.add_argument('--parallel', action='store_true', dest='parallel',
         help='only allow exact matches to model keys during loading')
 parser.add_argument('--strict', action='store_true', dest='strict',
@@ -118,7 +110,7 @@ train_loader = getattr(dataloader, args.dataset)(args.data_dir,
 
 # Load in the original, baseline model, set it to training mode
 classes = 10
-model = get_model('./logs/models/base-model', classes, pth_name='best.pth.tar',
+model = get_model(args.init_model_dir, classes, pth_name=args.pth_name,
         parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
 model.train()
 for p in model.parameters():
