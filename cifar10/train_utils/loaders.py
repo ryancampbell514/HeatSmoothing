@@ -6,8 +6,8 @@ import os, sys
 import torch
 import torch.nn as nn
 
-from flashlight import dataloader
-from flashlight import cvmodels as models
+from HeatSmoothing.cifar10.train_utils import dataloader
+from HeatSmoothing.cifar10.train_utils import cvmodels as models
 
 def get_loader(model_dir, mode='test', batch_size=100, workers=4, has_cuda=True):
     state_dict = yaml.load(open(os.path.join(model_dir, 'args.yaml'), 'r'))
