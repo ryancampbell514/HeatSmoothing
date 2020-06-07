@@ -100,28 +100,28 @@ group2.add_argument('--fd-order', type=str, choices=['O1','O2'], default='O1',
 group2.add_argument('--random-labels', type=bool, default=False, metavar='RL',
         help='whether or not to train with random labels')
 
-group3 = parser.add_argument_group('Loss hyperparameters')
-group3.add_argument('--loss-function', type=int, default=None, metavar='LOSS',
-        help='0 - XEnt, 1 - New/Unbiased probability loss, 2 - Chris Loss, 3 - Use Distances, 4 - CW Loss',
-        )
+#group3 = parser.add_argument_group('Loss hyperparameters')
+#group3.add_argument('--loss-function', type=int, default=None, metavar='LOSS',
+#        help='0 - XEnt, 1 - New/Unbiased probability loss, 2 - Chris Loss, 3 - Use Distances, 4 - CW Loss',
+#        )
 #group3.add_argument('--cross-entropy', type=bool, default=False, metavar='XENT',
 #        help='Whether or not to use cross-entropy as the loss function.')
-group3.add_argument('--loss-weight', type=float, default=None, metavar='W',
-        help='Weight for the new loss function, creates a convex combination'
-             ' of pmax and pcorrect. Defaults to 0, which gives CrossEntropy.')
-group3.add_argument('--tik', type=float, default=None, metavar='TIK',
-        help='The Tikhanov regularization constant (Optimal = 0.1).')
-group3.add_argument('--pen-const', type=float, default=None, metavar='CONST',
-        help='regularization constant (Optimal = 0.1).')
+#group3.add_argument('--loss-weight', type=float, default=None, metavar='W',
+#        help='Weight for the new loss function, creates a convex combination'
+#             ' of pmax and pcorrect. Defaults to 0, which gives CrossEntropy.')
+#group3.add_argument('--tik', type=float, default=None, metavar='TIK',
+#        help='The Tikhanov regularization constant (Optimal = 0.1).')
+#group3.add_argument('--pen-const', type=float, default=None, metavar='CONST',
+#        help='regularization constant (Optimal = 0.1).')
 #group3.add_argument('--use-unbiased-loss', type=bool, default=False, metavar='SM',
 #        help='use new unbiased softmax loss?')
 #group3.add_argument('--use-distances', type=bool, default=False, metavar='DIST',
 #        help='train with distances?')
 
-group4 = parser.add_argument_group('Attack Hyperparameters')
-group4.add_argument('--num-images', type=int, default=1000, metavar='NI',
-        help='number of images to consider')
-group4.add_argument('--save-images', action='store_true', default=False,
-        help='save perturbed images to a npy file (default: False)')
-group4.add_argument('--random-subset', action='store_true',
-        default=False, help='use random subset of test images (default: False)')
+#group4 = parser.add_argument_group('Attack Hyperparameters')
+#group4.add_argument('--num-images', type=int, default=1000, metavar='NI',
+#        help='number of images to consider')
+#group4.add_argument('--save-images', action='store_true', default=False,
+#        help='save perturbed images to a npy file (default: False)')
+#group4.add_argument('--random-subset', action='store_true',
+#        default=False, help='use random subset of test images (default: False)')

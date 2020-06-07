@@ -19,17 +19,69 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
-from argparser import parser
-args = parser.parse_args()
-
 from flashlight import cvmodels as models
 from flashlight.utils.loaders import get_model
 from flashlight import dataloader
 from flashlight.dataloader import cutout, optim_cutout
 from flashlight.experiment_template.loss_functions import KL_loss
-from flashlight.cvmodels.mnist import LeNet
+#from flashlight.cvmodels.mnist import LeNet
 
-from GaussianNets.utils import get_jacobian
+#from GaussianNets.utils import get_jacobian
+
+parser = argparse.ArgumentParser('Gaussian Smoothing')
+parser.add_argument('--info',type=str,default=None,metavar='INFO')
+parser.add_argument('--std',type=float, default=0.1, metavar='DS',
+        help = 'Standard Deviation of Gaussian')
+parser.add_argument('--gamma',type=float, default=5, metavar='GA',
+        help = 'Re-scaling hyperparameter')
+parser.add_argument('--seed',type=float, default=0, metavar='S')
+parser.add_argument('--batch-size',type=int, default=100, metavar='B')
+parser.add_argument('--test-batch-size',type=int, default=1000, metavar='TB')
+parser.add_argument('--cutout',type=int, default=0, metavar='N',
+        help = 'Cutout size, if data loader supports cutout (default: 0)')
+parser.add_argument('--add-gaussian',type=bool, default=False, metavar='G',
+        help='Whether or not to add gaussian noise to the training data')
+parser.add_argument('--dataset', type=str,help='dataset (default: "cifar10")',
+        default='cifar10', metavar='DS',
+        choices=['cifar10','cifar100', 'TinyImageNet','Fashion','mnist','svhn'])
+parser.add_argument('--data-dir', type=str, required=False, default='/home/campus/oberman-lab/data', metavar='DIR',
+        help='data storage directory')
+parser.add_argument('--model', type=str, default='ResNet34', metavar='MOD')
+parser.add_argument('--model-dir', type=str,
+        default='/home/campus/ryan.campbell2/GaussianNets/cifar10/logs/models/base-model',
+        metavar='DIR', help='The directory of the initial model.')
+parser.add_argument('--model-args',type=str,
+        default="{}",metavar='ARGS',
+        help='A dictionary of extra arguments passed to the model.'
+        ' (default: "{}")')
+parser.add_argument('--bias',action='store_true', dest='bias',
+        help = "Use model biases")
+parser.add_argument('--bn',action='store_true', dest='bn',
+        help = "Use batch norm")
+parser.add_argument('--no-bn',action='store_false', dest='bn',
+       help = "Don't use batch norm")
+parser.set_defaults(bn=True)
+parser.add_argument('--kernel-size',type=int, default=3, metavar='K',
+        help='convolution kernel size (default: 3)')
+parser.add_argument('--dropout',type=float, default=0, metavar='P',
+        help = 'Dropout probability, if model supports dropout (default: 0)')
+parser.add_argument('--last-layer-nonlinear',
+        action='store_true', default=False)
+parser.add_argument('--classes',type=int, default=10,
+        help='How many classes the model has')
+
+parser.add_argument('--pth-name', type=str, default='best.pth.tar')
+parser.add_argument('--parallel', action='store_true', dest='parallel',
+        help='only allow exact matches to model keys during loading')
+parser.add_argument('--strict', action='store_true', dest='strict',
+        help='only allow exact matches to model keys during loading')
+parser.add_argument('--lr', type=float, default=0.1, metavar='LR')
+parser.add_argument('--lr-schedule', type=str, metavar='[[epoch,ratio]]',
+        default='[[0,1],[60,0.2],[120,0.04],[160,0.008]]')
+parser.add_argument('--num-timesteps', type=int, default=5, metavar='NTS')
+parser.add_argument('--num-epochs', type=int, default=200, metavar='NE')
+
+args = parser.parse_args()
 
 print('Arguments:')
 for p in vars(args).items():
@@ -148,58 +200,6 @@ def train_more(ts,epoch):
         Cu = out_u.argmax(dim=-1).view(-1)
 
         obj = (output -  out_u).norm(p=2,dim=-1).pow(2).div(2)
-
-        #######################################################################
-
-        ## just fuck with the grad of the max (or correct) logit
-        #v_max = output.max(dim=-1)[0]
-        #dv_max = grad(v_max.sum(),x,retain_graph=True)[0]
-        #penalty = dv_max.view(Nb,-1).norm(p=2,dim=-1).pow(2)
-
-        #######################################################################
-
-        # Jacobian method
-        ##jac = get_jacobian(model,x,10)  # Nb,10,784
-        #jac = torch.zeros(Nb,classes,*xsh[1:])
-        #if has_cuda:
-        #    jac = jac.cuda()
-        #jac = jac.view(Nb,classes,-1)
-        #for i in range(classes):
-        #    grad_vi = grad(output[i].sum(),x,retain_graph=True)[0]
-        #    jac[:,i,:] = grad_vi.view(Nb,-1)
-        #penalty = jac.norm(p=2,dim=-1).pow(2).sum(dim=-1)
-        ##penalty=torch.zeros(128)
-
-        #######################################################################
-
-        ## L2 loss regularization
-        #loss = KL_loss(output,y)
-
-        #dt = 1e-2
-
-        #dx = grad(loss.mean(), x, retain_graph=True)[0]
-        #sh = dx.shape
-        #x = x.detach()
-
-        #v = dx.view(sh[0],-1)
-        #Nb, Nd = v.shape
-
-        #nv = v.norm(2,dim=-1,keepdim=True)
-        #nz = nv.view(-1)>0
-        #v[nz] = v[nz].div(nv[nz])
-
-        #v = v.view(sh)
-        #xf = x + dt*v
-        #xf.requires_grad=True
-
-        #mf = model(xf)
-        #lf = KL_loss(mf,y)
-
-        #H = dt
-        #lb = loss
-        #dl = (lf-lb)/H
-
-        #penalty = dl.pow(2).div(2)
 
         #######################################################################
 
