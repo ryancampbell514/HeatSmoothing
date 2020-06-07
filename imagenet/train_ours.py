@@ -194,8 +194,8 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
             # compute softmax-KL divergence (better than L2 distance in the large Nc case)
             output_sm = output.softmax(dim=-1)
             out_curr_sm = out_curr.softmax(dim=-1)
-            #obj = kl_div(output_sm.log(),out_curr_sm)     # Div(f^k || x)
-            obj = kl_div(out_curr_sm.log(),output_sm)     # Div(v || f^k), this is more suitable than the line above
+            obj = kl_div(output_sm.log(),out_curr_sm)     # Div(f^k || x)
+            #obj = kl_div(out_curr_sm.log(),output_sm)     # Div(v || f^k), this is more suitable than the line above
             obj = obj.sum(dim=-1)
 
             ############
@@ -204,7 +204,7 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
             Nb = xsh[0]
             classes = 1000
             penalty = torch.zeros(Nb).cuda()
-            num_reps = 6  # just one Gaussian noise sample for now
+            num_reps = 6
 
             for j in range(num_reps):
                 #x.requires_grad = True
