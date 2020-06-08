@@ -47,6 +47,15 @@ Using the resulting .pkl dataframes, make the certification plot using the code 
 
 #### Attacking
 
+First, compute the $`L`$-bound from the paper for any of our baseline and our averaged models by running
+```
+python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar'
+```
+For the Cohen and Salman models, run
+```
+python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar' --is-cohen
+```
+
 To attack our baseline and our averaged models, cd into `attack` and run the following from the command line
 ```
 python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'top1' --attack 'DDN or PGD'
@@ -95,9 +104,13 @@ Using the resulting .pkl dataframes, make the certification plot using the code 
 
 #### Attacking
 
-First, compute the $`L`$-bound from the paper for any of our four pretrained models by running
+First, compute the $`L`$-bound from the paper for any of our baseline and our averaged models by running
 ```
-python test_statistics.py 
+python test_statistics.py --datadir 'LOCATION OF DATA' --model-path 'MODEL PATH.pth.tar' 
+```
+For the Cohen and Salman models, be sure to uncomment the appropriate lines in `test_statistics.py` and run
+```
+python test_statistics.py --datadir 'LOCATION OF DATA' --model-path 'MODEL PATH.pth.tar' --is-cohen
 ```
 
 Run `cd attack`. To attack  the baseline model and our averaged model by running
