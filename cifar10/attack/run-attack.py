@@ -14,15 +14,13 @@ import torchvision.transforms as transforms
 
 sys.path.append('../')
 
-from flashlight import dataloader
-from flashlight import cvmodels as models
-from flashlight.utils.loaders import get_model
-from flashlight.cvmodels.cifar import ResNet34
+from HeatSmoothing.cifar10.train_utils import dataloader
+from HeatSmoothing.cifar10.train_utils import cvmodels as models
+from HeatSmoothing.cifar10.train_utils.loaders import get_model
+from HeatSmoothing.cifar10.train_utils.cvmodels.cifar import ResNet34
 
 # import attack
 from salman_attacks import Attacker, PGD_L2, DDN
-
-from smoothing_adversarial.code.architectures import get_architecture
 
 parser = argparse.ArgumentParser('Attack an example CIFAR10 example with L2PGD'
                                   'Writes adversarial distances (and optionally images) to a npz file.')
@@ -59,8 +57,8 @@ groups2.add_argument('--random-subset', action='store_true',
 
 group1 = parser.add_argument_group('Attack hyperparameters')
 group1.add_argument('--attack', default='DDN', type=str, choices=['DDN', 'PGD'])
-group1.add_argument('--epsilon', default=2*256, type=float)  # want to force misclassification
-group1.add_argument('--num-steps', default=10, type=int)
+group1.add_argument('--epsilon', default=4*256, type=float)  # want to force misclassification
+group1.add_argument('--num-steps', default=20, type=int)
 #group1.add_argument('--num-noise-vec', default=1, type=int,
 #                    help="number of noise vectors to use for finding adversarial examples. `m_train` in the paper.")
 group1.add_argument('--no-grad-attack', action='store_true',
@@ -105,10 +103,6 @@ loader = torch.utils.data.DataLoader(
 
 # retrieve pre-trained model
 classes = 10
-#checkpoint = torch.load(args.pth_name)
-#model = get_architecture(checkpoint["arch"], 'cifar10')
-#model.load_state_dict(checkpoint['state_dict'])
-
 model = ResNet34()
 model = get_model(args.model_dir, classes, pth_name=args.pth_name,
         parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
