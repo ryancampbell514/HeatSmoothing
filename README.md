@@ -35,7 +35,7 @@ Alternatively, the four pretrained models can be downloaded [here](https://drive
 
 #### Certification
 
-To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
+As well as computing the certified $`L_2`$ certified radius, our certification code also computed classification and certification times. To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
 ```
 python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar'
 ```
@@ -78,7 +78,7 @@ Alternatively, you can download the pretrained version of these two models, alon
 
 #### Certification
 
-Run `cd certify`. To certify the baseline model and our averaged model by running
+As well as computing the certified $`L_2`$ certified radius, our certification code also computed classification and certification times. Run `cd certify`. To certify the baseline model and our averaged model by running
 ```
 python certify.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5'
 ```
@@ -94,6 +94,11 @@ python certify-salman.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PA
 Using the resulting .pkl dataframes, make the certification plot using the code provided in the notebook `figs/cert_plots.ipynb`.
 
 #### Attacking
+
+First, compute the $`L`$-bound from the paper for any of our four pretrained models by running
+```
+python test_statistics.py 
+```
 
 Run `cd attack`. To attack  the baseline model and our averaged model by running
 ```

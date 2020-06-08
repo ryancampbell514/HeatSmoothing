@@ -14,8 +14,11 @@ import torchvision.transforms as transforms
 sys.path.append('../')
 import resnet
 
-#from smoothing.code.architectures import get_architecture
-#from smoothing_adversarial.code.architectures import get_architecture
+# FOR A COHEN MODEL, UNCOMMENT THE NEXT LINE
+#from HeatSmoothing.imagenet.cohen_utils.architectures import get_architecture
+
+# FOR A SALMAN MODEL, UNCOMMENT THE NEXT LINE
+#from HeatSmoothing.imagenet.cohen_utils.architectures import get_architecture
 
 parser = argparse.ArgumentParser('Gathers statistics of a model on the test'
         'set, and saves these statistics to a pickle file in the model directory')
@@ -71,13 +74,10 @@ loader = torch.utils.data.DataLoader(
                     batch_size=args.batch_size, shuffle=False,
                     num_workers=4, pin_memory=True)
 
-#checkpoint = torch.load(args.model_path)
-#model = get_architecture(checkpoint["arch"], 'imagenet')
-#model.load_state_dict(checkpoint['state_dict'])
-
 Nsamples=args.num_images
 Nclasses=Nc=1000
 
+# FOR A BASELINE MODEL, USE THE FOLLOWING 8 LINES TO LOAD IN THE PRETRAINED MODEL
 model = getattr(resnet, args.model)().cuda()
 savedict = torch.load(args.model_path,map_location='cpu')
 model.load_state_dict(savedict['state_dict'])
@@ -86,6 +86,11 @@ std=[0.229, 0.224, 0.225]
 model = nn.Sequential(nn.BatchNorm2d(3,affine=False), model)
 model[0].running_var =  torch.tensor(std)**2
 model[0].running_mean = torch.tensor(mean)
+
+# FOR A COHEN OR SALMAN MODEL, USE THE FOLLOWING 3 LINES TO LOAD IN THE PRETRAINED MODEL
+#checkpoint = torch.load(args.model_path)
+#model = get_architecture(checkpoint["arch"], 'imagenet')
+#model.load_state_dict(checkpoint['state_dict'])
 
 model.eval()
 for p in model.parameters():
