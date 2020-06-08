@@ -102,8 +102,8 @@ class PGD_L2(Attacker):
             pred_top5 = logits.topk(k=5,dim=-1)[1]
 
             is_adv = labels not in pred_top5
-            #if is_adv:
-            #    break
+            if is_adv:
+                break
 
             ce_loss = F.cross_entropy(logits, labels, reduction='sum')
             loss = multiplier * ce_loss
