@@ -15,6 +15,8 @@ cd HeatSmoothing
 
 ### CIFAR-10 Experiments
 
+#### Training
+
 Begin by entering the CIFAR-10 directory,
 ```
 cd cifar10
@@ -34,7 +36,33 @@ from the command line.
 
 Alternatively, the four pretrained models can be downloaded [here](https://drive.google.com/file/d/1p0TXoOeQfvkgXkHqaXY7YAmjhRdmN-S8/view?usp=sharing).
 
+#### Certification
+
+To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
+```
+python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar'
+```
+For the Cohen and Salman models, run
+```
+python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --is-cohen
+```
+Using the resulting .pkl dataframes, make the certification plot using the code provided in the notebook `figs/cert_plots.ipynb`.
+
+#### Attacking
+
+To attack our baseline and our averaged models, cd into `attack` and run the following from the command line
+```
+python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'top1' --attack 'DDN or PGD'
+```
+To attack the Cohen and Salman models, run
+```
+python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'cohen' --attack 'DDN or PGD'
+```
+Using the resulting .npz adversarial distances, make the certification plot using the code provided in the notebook `figs/adv_plots.ipynb`.
+
 ### ImageNet-1k Experiments
+
+#### Training
 
 To train a base model, simply execute
 ```
@@ -48,3 +76,8 @@ Using this initial model, train the deterministic averaged model by running
 ```
 
 Alternatively, you can download the pretrained version of these two models, along with the pretrained Cohen and Salman models [here](https://drive.google.com/file/d/1Gvt6zNAnAAZaOiPWcCc_CzkFJV3k-_GL/view?usp=sharing).
+
+#### Certification
+
+#### Attacking
+

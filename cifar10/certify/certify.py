@@ -17,8 +17,8 @@ from torch.autograd import Variable, grad
 import torchnet as tnt
 import torch.nn.functional as F
 
-from robustness.datasets import CIFAR
-from robustness.model_utils import make_and_restore_model
+#from robustness.datasets import CIFAR
+#from robustness.model_utils import make_and_restore_model
 
 from HeatSmoothing.cifar10.train_utils.loaders import get_model
 #from flashlight.utils import cohen
