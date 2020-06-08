@@ -1,4 +1,4 @@
-""" train a baseline (std=0) or stochoastic model (std!=0) on ImageNet """
+""" train a baseline on ImageNet """
 
 import argparse
 import collections

@@ -24,8 +24,6 @@ ln -s $SCRATCH/$NAME $DIR
 ulimit -n 4096
 
 export CUDA_VISIBLE_DEVICES=0,1,2,3
-#python -m torch.distributed.launch \
-#  --nproc_per_node=2 --nnodes=1 --node_rank=0 \
 python  ./train_avgmodel.py $IMGDATA \
   --workers=4 \
   --init-bn0 \
