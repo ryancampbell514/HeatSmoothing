@@ -9,8 +9,8 @@ The code is tested with python3 and PyTorch v1.5.0 (CUDA version 10.2). See http
 Then clone this repository:
 
 ```
-git clone https://github.com/ryancampbell514/GaussianNets.git
-cd GaussianNets
+git clone https://github.com/ryancampbell514/HeatSmoothing.git
+cd HeatSmoothing
 ```
 
 ### CIFAR-10 Experiments
@@ -28,4 +28,5 @@ Using this initial model, train the deterministic averaged model by running
 ./run_ours.sh
 ```
 
-Download the pretrained Cohen RandomizedSmoothing models [here](https://drive.google.com/file/d/1h_TpbXm5haY5f-l4--IKylmdz6tvPoR4/view). Download the pretrained Salman SmoothingAdversarial models [here](https://drive.google.com/file/d/1GH7OeKUzOGiouKhendC-501pLYNRvU8c/view).
+Alternatively, you can download the pretrained version of these two models [here](https://drive.google.com/file/d/1_rRoT8so6-s9yQbl6pb5X0t4sqbnOpU0/view?usp=sharing) and [here](https://drive.google.com/file/d/1X6LdoeLZg2PD1GrHB88slVXwTovttYUo/view?usp=sharing). Next, download the pretrained Cohen RandomizedSmoothing models [here](https://drive.google.com/file/d/1h_TpbXm5haY5f-l4--IKylmdz6tvPoR4/view). Download the pretrained Salman SmoothingAdversarial models [here](https://drive.google.com/file/d/1GH7OeKUzOGiouKhendC-501pLYNRvU8c/view).
+
