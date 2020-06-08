@@ -15,6 +15,25 @@ cd HeatSmoothing
 
 ### CIFAR-10 Experiments
 
+Begin by entering the CIFAR-10 directory,
+```
+cd cifar10
+```
+
+Next, train the base model, Cohen model, and Salman model by running
+```
+./run.sh
+```
+from the command line with the correct script selected on line 42.
+
+To train our averaged model, run
+```
+python train_ours.py --data-dir 'PATH TO CIFAR-10 DATASET' --init-model-dir 'DIRECTORY OF THE TRAINED BASE MODEL' --pth-name 'best.pth.tar'
+```
+from the command line.
+
+Alternatively, the four pretrained models can be downloaded [here](https://drive.google.com/file/d/1p0TXoOeQfvkgXkHqaXY7YAmjhRdmN-S8/view?usp=sharing).
+
 ### ImageNet-1k Experiments
 
 To train a base model, simply execute
@@ -28,5 +47,4 @@ Using this initial model, train the deterministic averaged model by running
 ./run_ours.sh
 ```
 
-Alternatively, you can download the pretrained version of these two models [here](https://drive.google.com/file/d/1_rRoT8so6-s9yQbl6pb5X0t4sqbnOpU0/view?usp=sharing) and [here](https://drive.google.com/file/d/1X6LdoeLZg2PD1GrHB88slVXwTovttYUo/view?usp=sharing). Next, download the pretrained Cohen RandomizedSmoothing models [here](https://drive.google.com/file/d/1h_TpbXm5haY5f-l4--IKylmdz6tvPoR4/view). Download the pretrained Salman SmoothingAdversarial models [here](https://drive.google.com/file/d/1GH7OeKUzOGiouKhendC-501pLYNRvU8c/view).
-
+Alternatively, you can download the pretrained version of these two models, along with the pretrained Cohen and Salman models [here](https://drive.google.com/file/d/1Gvt6zNAnAAZaOiPWcCc_CzkFJV3k-_GL/view?usp=sharing).
