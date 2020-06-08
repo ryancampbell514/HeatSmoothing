@@ -15,14 +15,11 @@ cd HeatSmoothing
 
 ### CIFAR-10 Experiments
 
+To begin, run `cd cifar10`.
+
 #### Training
 
-Begin by entering the CIFAR-10 directory,
-```
-cd cifar10
-```
-
-Next, train the base model, Cohen model, and Salman model by running
+Train the base model, Cohen model, and Salman model by running
 ```
 ./run.sh
 ```
@@ -62,6 +59,8 @@ Using the resulting .npz adversarial distances, make the certification plot usin
 
 ### ImageNet-1k Experiments
 
+Now, run `cd imagenet`.
+
 #### Training
 
 To train a base model, simply execute
@@ -79,5 +78,33 @@ Alternatively, you can download the pretrained version of these two models, alon
 
 #### Certification
 
+Run `cd certify`. To certify the baseline model and our averaged model by running
+```
+python certify.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5'
+```
+For the pretrained Cohen and Salman models, the model loading code is slightly different. For the Cohen model, run
+```
+python certify-cohen.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
+```
+and for the Salman model, run
+```
+python certify-salman.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
+```
+
+Using the resulting .pkl dataframes, make the certification plot using the code provided in the notebook `figs/cert_plots.ipynb`.
+
 #### Attacking
 
+Run `cd attack`. To attack  the baseline model and our averaged model by running
+```
+python run-attack.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
+```
+For the Cohen model, run
+```
+python run-attack-cohen.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
+```
+For the Salman model, run
+```
+python run-attack-salman.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
+```
+Using the resulting .npz adversarial distances, make the certification plot using the code provided in the notebook `figs/adv_plots.ipynb`.
