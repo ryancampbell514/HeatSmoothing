@@ -118,7 +118,7 @@ As well as computing the certified $`L_2`$ certified radius, our certification c
 ```
 python certify.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5'
 ```
-For the pretrained Cohen and Salman models, the model loading code is slightly different. For the Cohen model, run
+For the pretrained Cohen and Salman models, the respective model loading code is slightly different. For the Cohen model, run
 ```
 python certify-cohen.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'COHEN MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
 ```
