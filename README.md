@@ -120,11 +120,11 @@ python certify.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STOR
 ```
 For the pretrained Cohen and Salman models, the model loading code is slightly different. For the Cohen model, run
 ```
-python certify-cohen.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
+python certify-cohen.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'COHEN MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
 ```
 and for the Salman model, run
 ```
-python certify-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
+python certify-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'SALMAN MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
 ```
 Using the resulting .pkl dataframes, make the certification plot (Figure 3(b)) using the code provided in the notebook `figs/cert_plots.ipynb`.
 
@@ -136,19 +136,19 @@ python test_statistics.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET
 ```
 For the Cohen and Salman models, be sure to uncomment the appropriate lines in `test_statistics.py` and run
 ```
-python test_statistics.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --is-cohen
+python test_statistics.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'COHEN or SALMAN MODEL PATH.pth.tar' --is-cohen
 ```
 
 Run `cd attack`. To attack  the baseline model and our averaged model by running
 ```
-python run-attack.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
+python run-attack.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD' --criterion 'top5'
 ```
 For the Cohen model, run
 ```
-python run-attack-cohen.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
+python run-attack-cohen.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'COHEN MODEL PATH.pth.tar' --attack 'DDN or PGD' --criterion 'cohen'
 ```
 For the Salman model, run
 ```
-python run-attack-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
+python run-attack-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'SALMAN MODEL PATH.pth.tar' --attack 'DDN or PGD' --criterion 'cohen'
 ```
 Using the resulting .npz adversarial distances, make the attack curves (Figures 4(b)(d)) using the code provided in the notebook `figs/adv_plots.ipynb`.

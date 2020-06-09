@@ -51,7 +51,7 @@ def certify(model, x, std, is_cohen, classes, n0=100, n=100000, alpha=0.001, rul
         noise = noise.cuda()
     xn = x.unsqueeze(0) + noise  # n x channels x height x width
     f = model(xn)
-    f_pred = f.cpu().argmax(dim=-1)  # a bunch of labels
+    f_pred = f.argmax(dim=-1)  # a bunch of labels
     if rule=='top1':
         nA = (f_pred == cAHat).float().sum().int().item()   # numer of times prediction matches initial prediction
     elif rule=='top5':

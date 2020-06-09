@@ -31,6 +31,8 @@ parser.add_argument('-j', '--workers', default=8, type=int, metavar='N',
                     help='number of data loading workers (default: 8)')
 parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
+parser.add_argument('--init-pth', type=str, default='PATH/TO/INIT/MODEL',
+                    help='Path to the initial, un-smoothed model')
 parser.add_argument('--phases', type=str,
                     help='Specify epoch order of data resize and learning rate schedule')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
@@ -66,8 +68,6 @@ parser.add_argument('--start-epoch', type=int, default=0,
                     help='for debugging purposes.')
 parser.add_argument('--end-epoch', type=int, default=None)
 
-parser.add_argument('--init-pth', type=str, required=True,
-                    help='path to initial model f^0 (.pth.tar file)')
 
 cudnn.benchmark = True
 args = parser.parse_args()

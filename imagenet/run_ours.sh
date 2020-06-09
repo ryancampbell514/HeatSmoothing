@@ -24,12 +24,12 @@ ln -s $SCRATCH/$NAME $DIR
 ulimit -n 4096
 
 export CUDA_VISIBLE_DEVICES=0,1,2,3
-python  ./train_avgmodel.py $IMGDATA \
+python  ./train_ours.py $IMGDATA \
   --workers=4 \
   --init-bn0 \
   --std 0.25 \
   --gamma 100.0 \
-  --init-pth 'PATH TO INITIAL MODEL (.pth.tar file)'\
+  --init-pth '/PATH/TO/INITIAL/MODEL' \
   --start-epoch 15 \
   --end-epoch 28 \
   --print-freq 25 \
