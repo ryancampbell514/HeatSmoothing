@@ -66,6 +66,9 @@ parser.add_argument('--start-epoch', type=int, default=0,
                     help='for debugging purposes.')
 parser.add_argument('--end-epoch', type=int, default=None)
 
+parser.add_argument('--init-pth', type=str, required=True,
+                    help='path to initial model f^0 (.pth.tar file)')
+
 cudnn.benchmark = True
 args = parser.parse_args()
 
@@ -97,8 +100,9 @@ def main():
     #if args.distributed:
     #    model = dist_utils.DDP(model, device_ids=[args.local_rank], output_device=args.local_rank)
     #init_pth = '/home/campus/christopher.finlay/other-repos/imagenet18/training/runs/run-19-04-21T170801/model_best.pth.tar'
-    init_pth = './runs/base-model/model_best.pth.tar'
+    #init_pth = './runs/base-model/model_best.pth.tar'
     #init_pth = './runs/model-TS2.pth.tar'
+    init_pth = args.init_pth
     savedict = torch.load(init_pth,map_location='cpu')
     model.load_state_dict(savedict['state_dict'])
     for p in model.parameters():

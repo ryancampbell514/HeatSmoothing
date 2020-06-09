@@ -31,8 +31,8 @@ from HeatSmoothing import cohen
 import argparse
 parser = argparse.ArgumentParser('Certify a model using the method from the Cohen Randomized Smoothing paper')
 
-parser.add_argument('--data-dir', type=str, default='/home/campus/oberman-lab/data/',
-        help='data storage directory')
+parser.add_argument('--data-dir', type=str, default='',
+        help='directory where CIFAR10 data is stored')
 parser.add_argument('--dataset', type=str,help='dataset (default: "cifar10")',
         default='cifar10', metavar='DS',
         choices=['cifar10','cifar100', 'TinyImageNet','Fashion','mnist','svhn'])

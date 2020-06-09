@@ -25,11 +25,11 @@ parser = argparse.ArgumentParser('Attack an example IMAGENET-1K example with L2P
                                   'Writes adversarial distances (and optionally images) to a npz file.')
 
 groups0 = parser.add_argument_group('Required arguments')
-groups0.add_argument('--datadir', type=str, default='/mnt/data/scratch/data/imagenet',
+groups0.add_argument('--datadir', type=str, default='',
         metavar='DIR', help='Directory where ImageNet data is saved')
 groups0.add_argument('--model-path', type=str, required=True,metavar='PATH',
         help='Path to saved PyTorch model')
-groups0.add_argument('--pth-name', type=str, default='best.pth.tar')
+#groups0.add_argument('--pth-name', type=str, default='best.pth.tar')
 groups0.add_argument('--parallel', action='store_true', dest='parallel',
         help='only allow exact matches to model keys during loading')
 groups0.add_argument('--strict', action='store_true', dest='strict',

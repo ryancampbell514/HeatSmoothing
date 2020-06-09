@@ -76,7 +76,7 @@ To train a base model, simply execute
 ```
 ./run.sh
 ```
-from the command line. This basic training code is modified from [Train ImageNet in 18 minutes](https://github.com/cybertronai/imagenet18). This fast ImageNet training is obtained by training on smaller images. If you run locally, you may need to download the special ImageNet dataset yourself from [here](https://s3.amazonaws.com/yaroslavvb2/data/imagenet18.tar).
+from the command line. This basic ImageNet-1k training code is modified from [Tulip](https://github.com/cfinlay/tulip/tree/master/imagenet) and [Train ImageNet in 18 minutes](https://github.com/cybertronai/imagenet18). This fast ImageNet training is obtained by training on smaller images. If you run locally, you may need to download the special ImageNet dataset yourself from [here](https://s3.amazonaws.com/yaroslavvb2/data/imagenet18.tar).
 
 Using this initial model, train the deterministic averaged model by running
 ```

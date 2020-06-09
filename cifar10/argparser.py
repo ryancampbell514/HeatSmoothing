@@ -3,13 +3,13 @@ import argparse
 import numpy as np
 
 parser = argparse.ArgumentParser('Training template for DNN computer vision research in PyTorch')
-parser.add_argument('--datadir', type=str, required=True, default='/home/campus/oberman-lab/data/cifar10', metavar='DIR',
-        help='data storage directory')
+parser.add_argument('--datadir', type=str, required=True, default='', 
+        metavar='DIR', help='directory where CIFAR10 data is stored')
 parser.add_argument('--dataset', type=str,help='dataset (default: "cifar10")',
         default='cifar10', metavar='DS',
         choices=['cifar10','cifar100', 'TinyImageNet','Fashion','mnist','svhn'])
 parser.add_argument('--greyscale', type=bool, default=False)
-parser.add_argument('--std', type=float, default=None, metavar='SD',
+parser.add_argument('--std', type=float, default=0.1, metavar='SD',
         help = 'standard deviation of the added gaussian noise')
 parser.add_argument('--num-samples',type=int,default=10, metavar='NS',
         help='number of Gaussian samples to draw')
@@ -37,12 +37,12 @@ parser.add_argument('--parallel', action='store_true', dest='parallel',
         help='only allow exact matches to model keys during loading')
 parser.add_argument('--strict', action='store_true', dest='strict',
         help='only allow exact matches to model keys during loading')
-parser.add_argument('--adv-train',action='store_true',
-        help = "Whether or not to adversarially train")
-parser.add_argument('--AT-steps', type=int, default=10,
-        help='number of PGD steps')
-parser.add_argument('--AT-ball', type=float, default=0.5,
-        help='Max norm of perturbation')
+#parser.add_argument('--adv-train',action='store_true',
+#        help = "Whether or not to adversarially train")
+#parser.add_argument('--AT-steps', type=int, default=10,
+#        help='number of PGD steps')
+#parser.add_argument('--AT-ball', type=float, default=0.5,
+#        help='Max norm of perturbation')
 
 parser.add_argument('--save-path', type=str, default=None)
 parser.add_argument('--filename', type=str, default='data.pkl')

@@ -31,7 +31,7 @@ from meter import AverageMeter, NetworkMeter, TimeMeter
 def get_parser():
     parser = argparse.ArgumentParser(description='PyTorch ImageNet Training with squared L2 gradient norm regularization (Tikhonov regularization)')
     parser.add_argument('data', metavar='DIR', help='path to dataset')
-    parser.add_argument('--std', type=float, default=0.0, metavar='STD', help='added noise standard deviation')
+    #parser.add_argument('--std', type=float, default=0.0, metavar='STD', help='added noise standard deviation')
     parser.add_argument('--phases', type=str,
                     help='Specify epoch order of data resize and learning rate schedule: [{"ep":0,"sz":128,"bs":64},{"ep":5,"lr":1e-2}]')
     # parser.add_argument('--save-dir', type=str, default=Path.cwd(), help='Directory to save logs and models.')
@@ -81,8 +81,8 @@ is_rank0 = args.local_rank == 0
 tb = TensorboardLogger(args.logdir, is_master=is_master)
 log = FileLogger(args.logdir, is_master=is_master, is_rank0=is_rank0)
 
-mean_ = torch.tensor([0.485, 0.456, 0.406]).cuda().view(1,3,1,1)
-std_ = torch.tensor([0.229, 0.224, 0.225]).cuda().view(1,3,1,1)
+#mean_ = torch.tensor([0.485, 0.456, 0.406]).cuda().view(1,3,1,1)
+#std_ = torch.tensor([0.229, 0.224, 0.225]).cuda().view(1,3,1,1)
 
 def main():
     os.system('shutdown -c')  # cancel previous shutdown command
@@ -188,10 +188,10 @@ def train(trn_loader, model, criterion, optimizer, scheduler, epoch):
         xsh = target.shape
         imdim = xsh[-1]
         Nb=xsh[0]  # batch size
-        if args.std > 0:
-            input = input.mul(std_).add(mean_)                                         # get data in [0,1] range
-            input = input + torch.randn_like(input).cuda() * ((imdim/288) * args.std)  # augment the input data with Gaussian noise
-            input = input.sub(mean_).div(std_)                                         # renormalize the data
+        #if args.std > 0:
+        #    input = input.mul(std_).add(mean_)                                         # get data in [0,1] range
+        #    input = input + torch.randn_like(input).cuda() * ((imdim/288) * args.std)  # augment the input data with Gaussian noise
+        #    input = input.sub(mean_).div(std_)                                         # renormalize the data
         output = model(input)
         lx = criterion(output, target)
         loss = lx.mean()

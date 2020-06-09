@@ -19,7 +19,7 @@ MODEL='ResNet34'
 # Setup
 TIMESTAMP=`date +%y-%m-%dT%H%M%S`  # Use this in LOGDIR
 DATASET='cifar10'   # Use the dataset name in LOGDIR
-DATADIR='DIRECTORY TO CIFAR-10 DATASET'  # Shared data file store
+DATADIR='/home/campus/oberman-lab/data'  # Shared data file store
 
 BASELOG='./logs/'$DATASET/$MODEL
 LOGDIR=$BASELOG/$TIMESTAMP

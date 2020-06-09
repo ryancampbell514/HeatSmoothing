@@ -38,8 +38,8 @@ parser.add_argument('--add-gaussian',type=bool, default=False, metavar='G',
 parser.add_argument('--dataset', type=str,help='dataset (default: "cifar10")',
         default='cifar10', metavar='DS',
         choices=['cifar10','cifar100', 'TinyImageNet','Fashion','mnist','svhn'])
-parser.add_argument('--data-dir', type=str, required=True, default='', metavar='DIR',
-        help='data storage directory')
+parser.add_argument('--data-dir', type=str, required=True, default='', 
+        metavar='DIR', help='directory where data is stored')
 parser.add_argument('--model', type=str, default='ResNet34', metavar='MOD')
 parser.add_argument('--init-model-dir', type=str, required=True, default='',
         metavar='DIR', help='The directory of the initial model trained with train.py')
@@ -258,6 +258,7 @@ if __name__=="__main__":
 
         # save model so far (call it "current"), load it back, call it 'u', set it to eval mode
         # at timestep 1, u will be the inital model
+        os.makedirs('./logs/models/current', exist_ok=True)
         args_file_path = os.path.join('./logs/models/current', 'args.yaml')
         with open(args_file_path, 'w') as f:
             yaml.dump(vars(args), f, default_flow_style=False)
@@ -308,6 +309,7 @@ if __name__=="__main__":
             test()
 
     # save final model with arguments
+    os.makedirs('./logs/models/final', exist_ok=True)
     args_file_path = os.path.join('./logs/models/final', 'args.yaml')
     with open(args_file_path, 'w') as f:
         yaml.dump(vars(args), f, default_flow_style=False)

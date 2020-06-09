@@ -29,6 +29,7 @@ python  ./train_avgmodel.py $IMGDATA \
   --init-bn0 \
   --std 0.25 \
   --gamma 100.0 \
+  --init-pth 'PATH TO INITIAL MODEL (.pth.tar file)'\
   --start-epoch 15 \
   --end-epoch 28 \
   --print-freq 25 \

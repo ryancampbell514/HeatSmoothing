@@ -26,8 +26,8 @@ parser = argparse.ArgumentParser('Attack an example CIFAR10 example with L2PGD'
                                   'Writes adversarial distances (and optionally images) to a npz file.')
 
 groups0 = parser.add_argument_group('Required arguments')
-groups0.add_argument('--data-dir', type=str, default='/home/campus/oberman-lab/data/',
-        metavar='DIR', help='Directory where ImageNet data is saved')
+groups0.add_argument('--data-dir', type=str, default='',
+        metavar='DIR', help='Directory where CIFAR-10 data is saved')
 groups0.add_argument('--model-dir', type=str, metavar='PATH',
         help='Path to saved PyTorch model')
 groups0.add_argument('--pth-name', type=str, default='best.pth.tar')

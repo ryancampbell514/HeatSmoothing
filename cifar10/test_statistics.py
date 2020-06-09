@@ -177,13 +177,11 @@ print('mean & max gradient norm (%s): %.2f, %.2f'%(dualnorm, Lmean, Lmax))
 
 LossGap = (-Loss).clamp(0)
 denom = (1/args.std) * ((2/math.pi)**0.5)
-Lbounddet = LossGap/denom
-Lbound = LossGap/Lmax
+Lbound = LossGap/denom
+#Lbound = LossGap/Lmax
 df['Lbound'] = Lbound.cpu().numpy()
-df['Lbound_det'] = Lbounddet.cpu().numpy
-print('mean 1st order lower bound on adversarial distance (%s): %.2g'%(args.norm, Lbound.mean()))
-print('mean 1st order deterministic lower bound on adversarial distance (%s): %.2g'%(args.norm, Lbounddet[Lbounddet>0].mean()))
-print('                                                               median: %.2g'%(Lbounddet[Lbounddet>0].median()))
+print('mean 1st order lower bound on adversarial distance (%s): %.2g'%(args.norm, Lbound[Lbound>0].mean()))
+print('                                                 median: %.2g'%(Lbound[Lbound>0].median()))
 
 ix1 = np.array(df['top1'], dtype=bool)
 ix5 = np.array(df['top5'], dtype=bool)
