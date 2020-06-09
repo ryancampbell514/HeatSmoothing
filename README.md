@@ -28,7 +28,7 @@ Next, we compute a lower bound on adversarial distance using the Lipschitz const
 </p>
 Our attack curve plotting notebook is given in `figs/adv_plots.ipynb`.
 
-A result of deterministic smoothing is faster inference computation time. When performing classification, our models do not require a randomized smoothing procedure as is done with stochastic models from Cohen et. al. This faster computetion time on the CPU and GPU in Tables 3 & 4.
+A result of deterministic smoothing is faster inference computation time. When performing classification, our models do not require a randomized smoothing procedure as is done with stochastic models from Cohen et. al. This faster computation time on the CPU and GPU in Tables 3 & 4.
 <p align="center">
 <img src="figs/comp_times.png" width="700" >
 </p>
@@ -37,12 +37,7 @@ A result of deterministic smoothing is faster inference computation time. When p
 
 The code is tested with python3 and PyTorch v1.5.0 (CUDA version 10.2). See https://pytorch.org/get-started/locally/ for installation details.
 
-Then clone this repository:
-
-```
-git clone https://github.com/ryancampbell514/HeatSmoothing.git
-cd HeatSmoothing
-```
+Then clone this repository and run `cd HeatSmoothing`.
 
 ### CIFAR-10 Experiments
 
@@ -74,7 +69,7 @@ For the Cohen and Salman models, run
 ```
 python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --is-cohen
 ```
-Using the resulting .pkl dataframes, make the certification plot using the code provided in the notebook `figs/cert_plots.ipynb`.
+Using the resulting .pkl dataframes, make the certification plot (Figure 3(a)) using the code provided in the notebook `figs/cert_plots.ipynb`.
 
 #### Attacking
 
@@ -95,7 +90,7 @@ To attack the Cohen and Salman models, run
 ```
 python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'cohen' --attack 'DDN or PGD'
 ```
-Using the resulting .npz adversarial distances, make the certification plot using the code provided in the notebook `figs/adv_plots.ipynb`.
+Using the resulting .npz adversarial distances, make the attack curves (Figures 4(a)(c)) using the code provided in the notebook `figs/adv_plots.ipynb`.
 
 ### ImageNet-1k Experiments
 
@@ -113,7 +108,6 @@ Using this initial model, train the deterministic averaged model by running
 ```
 ./run_ours.sh
 ```
-
 Alternatively, you can download the pretrained version of these two models, along with the pretrained Cohen and Salman models [here](https://drive.google.com/file/d/1Gvt6zNAnAAZaOiPWcCc_CzkFJV3k-_GL/view?usp=sharing).
 
 #### Certification
@@ -130,8 +124,7 @@ and for the Salman model, run
 ```
 python certify-salman.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5' --is-cohen
 ```
-
-Using the resulting .pkl dataframes, make the certification plot using the code provided in the notebook `figs/cert_plots.ipynb`.
+Using the resulting .pkl dataframes, make the certification plot (Figure 3(b)) using the code provided in the notebook `figs/cert_plots.ipynb`.
 
 #### Attacking
 
@@ -156,4 +149,4 @@ For the Salman model, run
 ```
 python run-attack-salman.py --datadir 'WHERE DATA IS STORED' --model-path 'MODEL PATH.pth.tar' --attack 'DDN or PGD'
 ```
-Using the resulting .npz adversarial distances, make the certification plot using the code provided in the notebook `figs/adv_plots.ipynb`.
+Using the resulting .npz adversarial distances, make the attack curves (Figures 4(b)(d)) using the code provided in the notebook `figs/adv_plots.ipynb`.

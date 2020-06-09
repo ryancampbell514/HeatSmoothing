@@ -71,6 +71,7 @@ loader = torch.utils.data.DataLoader(
 
 model = get_model(args.model_dir, classes, pth_name=args.pth_name,
         parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
+model.eval()
 for p in model.parameters():
     p.requires_grad_(False)
 if has_cuda:

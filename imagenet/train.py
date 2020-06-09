@@ -135,9 +135,6 @@ def main():
     # save script so we can reproduce from logs
     shutil.copy2(os.path.realpath(__file__), f'{args.logdir}')
 
-    # Print noise std
-    log.console("Standard Deviation: {}".format(args.std))
-
     log.console("Creating data loaders (this could take up to 10 minutes if volume needs to be warmed up)")
     phases = eval(args.phases)
     dm = DataManager([copy.deepcopy(p) for p in phases if 'bs' in p])

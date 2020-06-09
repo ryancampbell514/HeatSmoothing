@@ -4,14 +4,14 @@
 # nproc_per_node is the number of GPUs you want to use
 
 # Set path to ImageNet data storage
-IMGDATA='/mnt/data/scratch/data/imagenet'
+IMGDATA='/PATH/TO/IMAGENET/DATASET/DIRECTORIES'
 
 TIMESTAMP=`date +%y-%m-%dT%H%M%S`  # Use this in LOGDIR
 
 # The script assumes you have a local scratch drive
 SCRATCH='/mnt/data/scratch/'$USER-'runs/'$TIMESTAMP
 
-NAME='baserun-'$TIMESTAMP
+NAME='baseline-'$TIMESTAMP
 DIR='runs/'$NAME
 
 # mkdir -p $IMGDATA
@@ -26,7 +26,7 @@ ulimit -n 4096
 
 python -m torch.distributed.launch \
   --nproc_per_node=4 --nnodes=1 --node_rank=0 \
-  python ./train.py $IMGDATA \
+  ./train.py $IMGDATA \
   --workers=4 \
   --init-bn0 \
   --logdir $DIR --distributed \

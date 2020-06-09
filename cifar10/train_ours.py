@@ -108,23 +108,8 @@ train_loader = getattr(dataloader, args.dataset)(args.data_dir,
         pin_memory=has_cuda,
         drop_last=True)
 
-# Load in the original, baseline model, set it to training mode
-classes = 10
-model = get_model(args.init_model_dir, classes, pth_name=args.pth_name,
-        parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
-model.train()
-for p in model.parameters():
-    p.requires_grad_(True)
-if has_cuda:
-    model = model.cuda()
-    if torch.cuda.device_count()>1:
-        model = nn.DataParallel(model)
-
 # define the loss function (KL loss without reduction)
 loss_function = KL_loss
-
-# define the optimizer
-optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9)
 
 def test():
     """ Evaluate current "model"'s argmax on test images """
@@ -184,9 +169,11 @@ def train_more(ts,epoch):
         output = model(x)
         out_u = u(x)
 
-        if epoch == 1 and batch_ix == 1:
+        if batch_ix == 0:
             print('Model acc. %.3f'%((output.argmax(dim=-1) == y).float().sum()*100/args.batch_size))
             print('Init model acc. %.3f'%((out_u.argmax(dim=-1) == y).float().sum()*100/args.batch_size))
+            #print(out_u[:10],y[:10])
+        #exit()
 
         u_lbls = out_u.argmax(dim=-1)
         Cu = out_u.argmax(dim=-1).view(-1)
@@ -251,6 +238,14 @@ def train_more(ts,epoch):
 
 if __name__=="__main__":
 
+    # Load in the original, baseline model, set it to training mode
+    classes = 10
+    model = get_model(args.init_model_dir, classes, pth_name=args.pth_name,
+            parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
+    #if torch.cuda.device_count()>1:
+    #    model = nn.DataParallel(model)
+
+
     # Now, iteratively solve heat equation to "smooth out" model
     num_timesteps = args.num_timesteps
     num_epochs = args.num_epochs
@@ -258,22 +253,24 @@ if __name__=="__main__":
 
         # save model so far (call it "current"), load it back, call it 'u', set it to eval mode
         # at timestep 1, u will be the inital model
-        os.makedirs('./logs/models/current', exist_ok=True)
-        args_file_path = os.path.join('./logs/models/current', 'args.yaml')
+        os.makedirs('./logs/cifar10/ResNet34/current', exist_ok=True)
+        args_file_path = os.path.join('./logs/cifar10/ResNet34/current', 'args.yaml')
         with open(args_file_path, 'w') as f:
             yaml.dump(vars(args), f, default_flow_style=False)
-        save_model_path = os.path.join('./logs/models/current', 'current.pth.tar')
+        save_model_path = os.path.join('./logs/cifar10/ResNet34/current', 'current.pth.tar')
         torch.save({'state_dict':model.state_dict()},save_model_path)
 
-        u = get_model('./logs/models/current', classes, pth_name='current.pth.tar',
+        u = get_model('./logs/cifar10/ResNet34/current', classes, pth_name='current.pth.tar',
                       parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
-        u.eval()
-        for p in u.parameters():
-            p.requires_grad_(False)
-        if has_cuda:
-            u = u.cuda()
-            if torch.cuda.device_count()>1:
-                u = nn.DataParallel(u)
+        #u = get_model(args.init_model_dir, classes, pth_name=args.pth_name,
+        #               parallel=args.parallel, strict=args.strict, has_cuda=has_cuda)
+        #u.eval()
+        #for p in u.parameters():
+        #    p.requires_grad_(False)
+        #if has_cuda:
+        #    u = u.cuda()
+        #    if torch.cuda.device_count()>1:
+        #        u = nn.DataParallel(u)
 
         # Re-initialize "model" to random weights, this is the starting point of
         # the optimization algorithm (needed for each step in the discretized PDE solver)
@@ -309,9 +306,9 @@ if __name__=="__main__":
             test()
 
     # save final model with arguments
-    os.makedirs('./logs/models/final', exist_ok=True)
-    args_file_path = os.path.join('./logs/models/final', 'args.yaml')
+    os.makedirs('./logs/cifar10/ResNet34/final', exist_ok=True)
+    args_file_path = os.path.join('./logs/cifar10/ResNet34/final', 'args.yaml')
     with open(args_file_path, 'w') as f:
         yaml.dump(vars(args), f, default_flow_style=False)
-    save_model_path = os.path.join('./logs/models/final', 'final.pth.tar')
+    save_model_path = os.path.join('./logs/cifar10/ResNet34/final', 'final.pth.tar')
     torch.save({'state_dict':model.state_dict()},save_model_path)

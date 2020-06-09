@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 
 parser = argparse.ArgumentParser('Training template for DNN computer vision research in PyTorch')
-parser.add_argument('--datadir', type=str, required=True, default='', 
+parser.add_argument('--datadir', type=str, default=None, 
         metavar='DIR', help='directory where CIFAR10 data is stored')
 parser.add_argument('--dataset', type=str,help='dataset (default: "cifar10")',
         default='cifar10', metavar='DS',

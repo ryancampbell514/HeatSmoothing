@@ -19,7 +19,7 @@ MODEL='ResNet34'
 # Setup
 TIMESTAMP=`date +%y-%m-%dT%H%M%S`  # Use this in LOGDIR
 DATASET='cifar10'   # Use the dataset name in LOGDIR
-DATADIR='/home/campus/oberman-lab/data'  # Shared data file store
+DATADIR='/PATH/TO/CIFAR10/DATASET'  # Shared data file store
 
 BASELOG='./logs/'$DATASET/$MODEL
 LOGDIR=$BASELOG/$TIMESTAMP
@@ -39,7 +39,8 @@ ln -s $SCRATCH $LOGDIR
 # or alternately, from the command line issue
 # $ export CUDA_VISIBLE_DEVICES=<id>
 # to make only that GPU visible
-python -u ./train.py \  # OPTIONS = {train.py, train_cohen.py, train_salman.py}
+# The next line has 3 possiblilities  -->  python -u ./{train, train_cohen, train_salman}.py
+python -u ./train.py \
     --bn \
     --lr 0.1 \
     --lr-schedule '[[0,1],[60,0.2],[120,0.04],[160,0.008]]'\

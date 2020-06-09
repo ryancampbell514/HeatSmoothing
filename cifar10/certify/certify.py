@@ -22,7 +22,7 @@ import torch.nn.functional as F
 
 from HeatSmoothing.cifar10.train_utils.loaders import get_model
 #from flashlight.utils import cohen
-#from flashlight.criteria import top1
+from HeatSmoothing.criteria import top1
 from HeatSmoothing.cifar10.train_utils import dataloader
 #from flashlight.experiment_template.loss_functions import KL_loss, cw_loss
 
