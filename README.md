@@ -6,12 +6,11 @@ The following code associated with "Deterministic Gaussian Averaged Neural Netwo
 
 Randomizd smoothing is a known stochastic method to achieve a Gaussian average of some initial model. However, we can also achieve a Gaussian averaged model by training with some regularized loss (see Figure 1). In this work, we present an iterative determinmistic smoothing method for classification neural networks, as opposed to well known stochastic methods. This form of iterative smoothing is illustrated in Figure 2.
 
-<p>
+<div class="img-container"> <!-- Block parent element -->
 <img src="figs/avging_illustration1.png" width="700" >
-</p> 
-<p>
 <img src="figs/avging_illustration2.png" width="700" >
-</p>
+</div>
+
 
 
 
