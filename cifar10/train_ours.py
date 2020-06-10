@@ -150,7 +150,7 @@ def test():
     print('%28s: %.3f, error: %.2f%%\n'
             %('Training loss',lt,t1t))
 
-def train_more(ts,epoch):
+def train(ts,epoch):
     """ do the PDE-smoothing """
 
     model.train()
@@ -302,7 +302,7 @@ if __name__=="__main__":
         # now minimize, sovle for v
         for epoch in range(1, num_epochs + 1):
             schedule.step()
-            train_more(t,epoch)
+            train(t,epoch)
             test()
 
     # save final model with arguments

@@ -35,7 +35,7 @@ A result of deterministic smoothing is faster inference computation time. When p
 
 ## Experiments
 
-The code is tested with python3 and PyTorch v1.5.0 (CUDA version 10.2). See https://pytorch.org/get-started/locally/ for installation details.
+The code is tested with python3 and PyTorch v1.5.0 (along with torchvision and CUDA toolkit version 10.2). See https://pytorch.org/get-started/locally/ for installation details.
 
 Then clone this repository and run `cd HeatSmoothing`.
 
