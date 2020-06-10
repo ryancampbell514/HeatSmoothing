@@ -4,12 +4,12 @@
 # nproc_per_node is the number of GPUs you want to use
 
 # Set path to ImageNet data storage
-IMGDATA='/mnt/data/scratch/data/imagenet'
+IMGDATA='/PATH/TO/IMAGENET/DATASET/DIRECTORIES'
 
 TIMESTAMP=`date +%y-%m-%dT%H%M%S`  # Use this in LOGDIR
 
 # The script assumes you have a local scratch drive
-SCRATCH='/mnt/data/scratch/'$USER-'runs/'$TIMESTAMP
+SCRATCH='/PATH/TO/SCRATCH/DIRECTORY'
 
 NAME='imagenet-pderun' #$TIMESTAMP
 DIR='runs/'$NAME
@@ -38,9 +38,6 @@ python  ./train_ours.py $IMGDATA \
 
 # If you have GPUs with more working memory you can double the batch-size and lr values
 # above to train faster
-#
-# On four GTX 1080 Ti's, this script takes about 33 hours
-# Without regularization (setting tikhonov to zero) it'll take roughly 20 hours
 
 rm $DIR
 mv $SCRATCH/$NAME $DIR

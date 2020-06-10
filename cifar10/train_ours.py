@@ -1,4 +1,4 @@
-""" MNIST example """
+""" CIFAR10 DETERMINISTIC AVERAGING """
 
 import os
 import yaml

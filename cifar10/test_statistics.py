@@ -1,3 +1,5 @@
+""" Load in a trained model, calculate the L-bound as well as top1/top5 accuracies """
+
 import argparse
 import os, sys
 

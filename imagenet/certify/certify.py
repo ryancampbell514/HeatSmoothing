@@ -1,4 +1,4 @@
-""" import a model, check the cohen bound (top-1)"""
+""" import a model, check the cohen bound (top-5)"""
 
 import time
 import yaml
@@ -29,7 +29,7 @@ from HeatSmoothing.imagenet import resnet
 import argparse
 parser = argparse.ArgumentParser('Certify a model')
 
-parser.add_argument('--datadir', type=str, default='/mnt/data/scratch/data/imagenet',
+parser.add_argument('--datadir', type=str, default='/DIRECTORY/OF/IMAGENET/DATA',
         help='data storage directory')
 parser.add_argument('--model-path', type=str, default=None, metavar='DIR',
         help='for loading a trained model')

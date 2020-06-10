@@ -1,0 +1,1 @@
+This directory features code necessary to load in pre-trained ImageNet models from [Cohen et al](https://github.com/locuslab/smoothing). These pretrained models can be downloaded [here](https://drive.google.com/file/d/1h_TpbXm5haY5f-l4--IKylmdz6tvPoR4/view).

@@ -1,4 +1,6 @@
-""" code used by Cohen (2019) for certification """
+""" code used by Cohen (2019) for certification
+    modofied from https://github.com/locuslab/smoothing/blob/master/code/core.py
+    to include top5 classification settings and deterministic model inference """
 
 import torch
 import numpy as np
@@ -8,7 +10,15 @@ from scipy.stats import binom_test
 from statsmodels.stats.proportion import proportion_confint
 
 def certify(model, x, std, is_cohen, classes, n0=100, n=100000, alpha=0.001, rule='top1'):
-    """ certify (get radius) ONE IMAGE AT A TIME """
+    """ certify (get radius) ONE IMAGE AT A TIME 
+        model -> a pytorch model
+        x -> an input image (cifar10 or imagenet)
+        std -> sigma, standard deviation of Gaussian noise
+        is_cohen -> boolean, whether or not to do randomized smoothing for the initial model prediction
+        classes -> number of classes
+        n0 -> number of Gaussian samples for initial prediction ( = 1 for deterministic model)
+        n -> number of noisy predictions to make to obtain proportion correct
+        rule -> top1 for cifar10 models, top5 for imagenet models """
 
     has_cuda = x.is_cuda
 

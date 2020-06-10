@@ -22,7 +22,7 @@ from HeatSmoothing.cifar10.train_utils.cvmodels.cifar import ResNet34
 # import attack
 from salman_attacks import Attacker, PGD_L2, DDN
 
-parser = argparse.ArgumentParser('Attack an example CIFAR10 example with L2PGD'
+parser = argparse.ArgumentParser('Attack an averaged CIFAR10 model with DDN or PGD'
                                   'Writes adversarial distances (and optionally images) to a npz file.')
 
 groups0 = parser.add_argument_group('Required arguments')

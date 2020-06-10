@@ -1,4 +1,4 @@
-""" train a model to be good on noisy exmaples """
+""" train a model to be good on noisy exmaples and on examples perturbed with PGD """
 
 import random
 import time, datetime

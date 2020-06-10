@@ -1,4 +1,6 @@
-""" a bunch of different ways of classifying """
+""" a bunch of different ways of classifying
+    TODO: add top5 and the top1/top5 versions of Cohen randomized smoothing classification
+    (this will make the certification and attack code cleaner) """
 
 import torch
 import numpy as np

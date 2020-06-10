@@ -34,9 +34,6 @@ python -m torch.distributed.launch \
 
 # If you have GPUs with more working memory you can double the batch-size and lr values
 # above to train faster
-#
-# On four GTX 1080 Ti's, this script takes about 33 hours
-# Without regularization (setting tikhonov to zero) it'll take roughly 20 hours
 
 rm $DIR
 mv $SCRATCH/$NAME $DIR

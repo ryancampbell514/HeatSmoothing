@@ -1,3 +1,5 @@
+""" Load in a trained model, calculate the L-bound as well as top1/top5 accuracies """
+
 import argparse
 import os, sys
 
@@ -23,7 +25,7 @@ import resnet
 parser = argparse.ArgumentParser('Gathers statistics of a model on the test'
         'set, and saves these statistics to a pickle file in the model directory')
 
-parser.add_argument('--datadir', type=str, default='/mnt/data/scratch/data/imagenet',
+parser.add_argument('--datadir', type=str, default='/PATH/TO/IMAGENET/DATASET/DIRECTORIES',
         metavar='DIR', help='Directory where ImageNet data is saved')
 parser.add_argument('--model-path', type=str, required=True,metavar='PATH',
         help='Path to saved PyTorch model')

@@ -21,11 +21,11 @@ from salman_attacks import Attacker, PGD_L2, DDN
 
 from HeatSmoothing.imagenet.salman_utils.architectures import get_architecture
 
-parser = argparse.ArgumentParser('Attack an example IMAGENET-1K example with L2PGD'
+parser = argparse.ArgumentParser('Attack an IMAGENET-1K model with DDN or PGD'
                                   'Writes adversarial distances (and optionally images) to a npz file.')
 
 groups0 = parser.add_argument_group('Required arguments')
-groups0.add_argument('--datadir', type=str, default='',
+groups0.add_argument('--datadir', type=str, default='/DIRECTORY/OF/IMAGENET/DATA',
         metavar='DIR', help='Directory where ImageNet data is saved')
 groups0.add_argument('--model-path', type=str, required=True,metavar='PATH',
         help='Path to saved PyTorch model')
