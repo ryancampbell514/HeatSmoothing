@@ -61,7 +61,7 @@ Alternatively, the four pretrained models can be downloaded [here](https://drive
 
 #### Certification
 
-As well as computing the certified $`L_2`$ certified radius, our certification code also computed classification and certification times. To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
+As well as computing the certified *L2* certified radius, our certification code also computed classification and certification times. To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
 ```
 python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar'
 ```
@@ -73,7 +73,7 @@ Using the resulting .pkl dataframes, make the certification plot (Figure 3(a)) u
 
 #### Attacking
 
-First, compute the $`L`$-bound from the paper for any of our baseline and our averaged models by running
+First, compute the *L*-bound from the paper for any of our baseline and our averaged models by running
 ```
 python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar'
 ```
@@ -114,7 +114,7 @@ Alternatively, you can download the pretrained version of these two models, alon
 
 #### Certification
 
-As well as computing the certified $`L_2`$ certified radius, our certification code also computed classification and certification times. Run `cd certify`. To certify the baseline model and our averaged model by running
+As well as computing the certified *L2* certified radius, our certification code also computed classification and certification times. Run `cd certify`. To certify the baseline model and our averaged model by running
 ```
 python certify.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' --std 0.25 --rule 'top5'
 ```
@@ -130,7 +130,7 @@ Using the resulting .pkl dataframes, make the certification plot (Figure 3(b)) u
 
 #### Attacking
 
-First, compute the L-bound from the paper for any of our baseline and our averaged models by running
+First, compute the *L*-bound from the paper for any of our baseline and our averaged models by running
 ```
 python test_statistics.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'MODEL PATH.pth.tar' 
 ```
