@@ -82,7 +82,7 @@ For the Cohen and Salman models, run
 python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar' --is-cohen
 ```
 
-To attack our baseline and our averaged models, cd into `attack` and run the following from the command line
+Now it is time to perform the DDN and PGD attacks. First, **uncomment lines 94-95 in `/cifar10/attack/salman_attacks.py`**. When attacking our models, we want to terminate the attack if the model is successfully adversarially perturbed. To attack our baseline and our averaged models, cd into `attack` and run the following from the command line
 ```
 python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'top1' --attack 'DDN or PGD'
 ```
