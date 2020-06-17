@@ -2,7 +2,7 @@
 
 ## Deterministic Averaging Neural Netowrks
 
-The following code associated with "Deterministic Gaussian Averaged Neural Networks" submitted to NeurIPS 2020. We implement a variational method to deterministically average DNNs.
+The following code associated with [Deterministic Gaussian Averaged Neural Networks](https://arxiv.org/abs/2006.06061) submitted to NeurIPS 2020. We implement a variational method to deterministically average DNNs.
 
 Randomizd smoothing is a known stochastic method to achieve a Gaussian average of some initial model. However, we can also achieve a Gaussian averaged model by training with some regularized loss (see Figure 1). In this work, we present an iterative determinmistic smoothing method for classification neural networks, as opposed to well known stochastic methods. This form of iterative smoothing is illustrated in Figure 2.
 
