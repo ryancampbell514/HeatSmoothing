@@ -152,3 +152,17 @@ For the Salman model, run
 python run-attack-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATASET IS STORED' --model-path 'SALMAN MODEL PATH.pth.tar' --attack 'DDN or PGD' --criterion 'cohen'
 ```
 Using the resulting .npz adversarial distances, make the attack curves (Figures 4(b)(d)) using the code provided in the notebook `figs/adv_plots.ipynb`.
+
+## Citations
+
+Please cite as
+```
+@misc{campbell2020deterministic,
+    title={Deterministic Gaussian Averaged Neural Networks},
+    author={Ryan Campbell and Chris Finlay and Adam M Oberman},
+    year={2020},
+    eprint={2006.06061},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
+```
