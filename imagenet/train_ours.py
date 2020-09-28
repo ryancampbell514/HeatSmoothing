@@ -1,3 +1,6 @@
+""" PDE training.
+    This is the alternative way that Adam suggested on 11-08-2020 """
+
 import yaml
 import argparse
 import collections
@@ -10,6 +13,7 @@ import time
 import warnings
 from datetime import datetime
 import numpy as np
+import warnings
 
 import torch.backends.cudnn as cudnn
 from torch import nn
@@ -31,8 +35,8 @@ parser.add_argument('-j', '--workers', default=8, type=int, metavar='N',
                     help='number of data loading workers (default: 8)')
 parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
-parser.add_argument('--init-pth', type=str, default='PATH/TO/INIT/MODEL',
-                    help='Path to the initial, un-smoothed model')
+parser.add_argument('--init-pth', type=str,
+                    help='path to the .pth.tar file of a baseline model that we wish to make robust.')
 parser.add_argument('--phases', type=str,
                     help='Specify epoch order of data resize and learning rate schedule')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
@@ -56,18 +60,9 @@ parser.add_argument('--num-timesteps', type=int, default=5,
 parser.add_argument('--seed', type=int, default=0)
 parser.add_argument('--train-batch-size', type=int, default=32)
 parser.add_argument('--val-batch-size', type=int, default=100)
-#parser.add_argument('--distributed', action='store_true',
-#                    help='Run distributed training. Default True')
-#parser.add_argument('--dist-url', default='env://', type=str,
-#                    help='url used to set up distributed training')
-#parser.add_argument('--dist-backend', default='nccl', type=str,
-#                    help='distributed backend')
-#parser.add_argument('--local_rank', default=0, type=int,
-#                    help='Used for multi-process training. Can either be manually set or automatically set by using \'python -m multiproc\'.')
 parser.add_argument('--start-epoch', type=int, default=0,
                     help='for debugging purposes.')
 parser.add_argument('--end-epoch', type=int, default=None)
-
 
 cudnn.benchmark = True
 args = parser.parse_args()
@@ -75,35 +70,16 @@ args = parser.parse_args()
 torch.manual_seed(args.seed)
 np.random.seed(args.seed)
 
-#is_master = (not args.distributed) or (dist_utils.env_rank()==0)
-#is_rank0 = args.local_rank == 0
 tb = TensorboardLogger(args.logdir, is_master=True)
 log = FileLogger(args.logdir, is_master=True, is_rank0=True)
-
-# KL loss (for now)
-kl_div = nn.KLDivLoss(reduction='none').cuda()
 
 def main():
     # print logs
     log.console(args)
-    #tb.log('sizes/world', dist_utils.env_world_size())
-
-    #if args.distributed:
-    #    log.console('Distributed initializing process group')
-    #    torch.cuda.set_device(args.local_rank)
-    #    dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url, world_size=dist_utils.env_world_size())
-    #    assert(dist_utils.env_world_size() == dist.get_world_size())
-    #    log.console("Distributed: success (%d/%d)"%(args.local_rank, dist.get_world_size()))
 
     # import the initial model
     model = getattr(resnet, 'resnet50')(bn0=args.init_bn0, nonlinearity=args.nonlinearity).cuda()
-    #if args.distributed:
-    #    model = dist_utils.DDP(model, device_ids=[args.local_rank], output_device=args.local_rank)
-    #init_pth = '/home/campus/christopher.finlay/other-repos/imagenet18/training/runs/run-19-04-21T170801/model_best.pth.tar'
-    #init_pth = './runs/base-model/model_best.pth.tar'
-    #init_pth = './runs/model-TS2.pth.tar'
-    init_pth = args.init_pth
-    savedict = torch.load(init_pth,map_location='cpu')
+    savedict = torch.load(args.init_pth,map_location='cpu')
     model.load_state_dict(savedict['state_dict'])
     for p in model.parameters():
         p.requires_grad_(True)
@@ -120,15 +96,10 @@ def main():
         curr_mod.load_state_dict(model.module.state_dict())
         curr_mod = nn.DataParallel(curr_mod.cuda()).cuda()
         curr_mod.eval()
+        # freeze the weights
         for p in curr_mod.parameters():
             p.requires_grad_(False)
 
-
-        # 2- reinitialize 'model' to random initial weights
-        model = resnet.resnet50(bn0=args.init_bn0, nonlinearity=args.nonlinearity).cuda()
-        #if args.distributed:
-            #model = dist_utils.DDP(model, device_ids=[args.local_rank], output_device=args.local_rank)
-        model = nn.DataParallel(model.cuda()).cuda()
         global model_params, master_params
         model_params = master_params = model.parameters()
         bparams, oparams = [], []
@@ -150,28 +121,29 @@ def main():
         scheduler = Scheduler(optimizer, [copy.deepcopy(p) for p in phases if 'lr' in p])
 
         # 5- Go through data
-        #if args.distributed:
-        #    log.console('Syncing machines before training')
-        #    dist_utils.sum_tensor(torch.tensor([1.0]).float().cuda())
-
         log.event("~~epoch\thours\ttop1\ttop5\n")
 
         if args.end_epoch > scheduler.tot_epochs:
             args.end_epoch = scheduler.tot_epochs
 
+        epochs_done = 0
         for epoch in range(args.start_epoch, args.end_epoch):
             dm.set_epoch(epoch)
             train(ts, epoch, dm.trn_dl, model, curr_mod, optimizer, scheduler)
             validate(ts, epoch, dm.val_dl, model)
-            torch.save({'state_dict':model.module.state_dict()}, './runs/avging_checkpoint.pth.tar')
-            #exit()
+            epochs_done += 1
+            torch.save({'state_dict':model.module.state_dict()}, './runs/avging_w_noise_epoch'+str(epochs_done)+'.pth.tar')
+            # break  # stop after one epoch if you'd like
 
         # Save current 'frozen' model's weights
-        model_name = './runs/model-TS'+str(ts)+'.pth.tar'
+        model_name = './runs/TS'+str(ts)+'.pth.tar'
         torch.save({'state_dict':model.module.state_dict()}, model_name)
 
     # Save final model's weights
     torch.save({'state_dict':model.module.state_dict()}, './runs/final_avgd_model.pth.tar')
+
+mean_ = torch.tensor([0.485, 0.456, 0.406]).cuda().view(1,3,1,1)
+std_ = torch.tensor([0.229, 0.224, 0.225]).cuda().view(1,3,1,1)
 
 def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
     net_meter = NetworkMeter()
@@ -183,6 +155,8 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
     model.train()
     curr_mod.eval()
 
+    #loss_fn = nn.CrossEntropyLoss(reduction='none')
+
     for batch_ix,(x,target) in enumerate(train_loader):
         timer.batch_start()
         scheduler.update_lr(epoch, batch_ix + 1, len(train_loader))
@@ -192,18 +166,25 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
 
             x.requires_grad = True
 
-            output = model(x)
+            # augment some images with noise
+            xn = x
+            xn = xn.mul(std_).add(mean_)
+            p = 0.5
+            add_noise = torch.rand(xn.shape[0]) > (1-p)
+            noise = torch.randn_like(xn[add_noise]) * args.std * (timestep/args.num_timesteps)
+            xn[add_noise] = xn[add_noise] + noise
+            xn = xn.sub(mean_).div(std_)
+
+            output = model(xn)
             out_curr = curr_mod(x)
 
-            # compute softmax-KL divergence (better than L2 distance in the large Nc case)
+            # compute softmax L2 distance
             output_sm = output.softmax(dim=-1)
             out_curr_sm = out_curr.softmax(dim=-1)
-            obj = kl_div(output_sm.log(),out_curr_sm)     # KLDiv(f^k || x)
-            #obj = kl_div(out_curr_sm.log(),output_sm)     # KLDiv(v || f^k), this may be more suitable than the line above
-            obj = obj.sum(dim=-1)
+            obj = (output_sm - out_curr_sm).norm(p=2,dim=-1).pow(2).div(2)
 
             ############
-            # Johnson-Lindenstrauss and finite-differences to compute grad v
+            # Johnson-Lindenstrauss and finite-differences to compute approximation of grad_x v
             xsh = x.shape
             Nb = xsh[0]
             classes = 1000
@@ -211,8 +192,6 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
             num_reps = 6
 
             for j in range(num_reps):
-                #x.requires_grad = True
-                #output = model(x)
 
                 W = torch.randn_like(output) * (1/(classes**0.5))
 
@@ -221,18 +200,15 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
                 # now do a finite-difference approximation for grad wv_dot
                 grad_wv = grad(wv_dot.sum(), x, retain_graph=True)[0]
 
-
                 sh = grad_wv.shape
-                #x.requires_grad = False
-                #x = x.detach()
 
                 v = grad_wv.reshape(sh[0],-1)
                 nv = v.norm(2,dim=-1,keepdim=True)
 
                 v = v.div(nv)
                 v = v.reshape(sh)
-                dt = 0.1
-                xf = x + dt*v  # forward Euler step
+                dt = 0.01
+                xf = xn + dt*v  # forward Euler step
 
                 outf = model(xf)
 
@@ -253,10 +229,6 @@ def train(timestep, epoch, train_loader, model, curr_mod, optimizer, scheduler):
         timer.batch_end()
         corr1, corr5 = correct(output.data, target, topk=(1, 5))
         reduced_obj, batch_total = to_python_float(objective.data), to_python_float(x.size(0))
-        #if args.distributed: # Must keep track of global batch size, since not all machines are guaranteed equal batches at the end of an epoch
-        #    metrics = torch.tensor([batch_total, reduced_obj, corr1, corr5]).float().cuda()
-        #    batch_total, reduced_obj, corr1, corr5 = dist_utils.sum_tensor(metrics).cpu().numpy()
-        #    reduced_obj = reduced_obj/dist_utils.env_world_size()
         top1acc = to_python_float(corr1)*(100.0/batch_total)
         top5acc = to_python_float(corr5)*(100.0/batch_total)
 
@@ -297,9 +269,6 @@ def validate(timestep, epoch, val_loader, model):
 
     for batch_ix,(x,target) in enumerate(val_loader):
         timer.batch_start()
-        #if args.distributed:
-        #    top1acc, top5acc, batch_total = distributed_predict(x, target, model)
-        #else:
         with torch.no_grad():
             output = model(x)
         batch_total = x.size(0)
@@ -468,6 +437,6 @@ def listify(p=None, q=None):
     return p
 
 if __name__ == '__main__':
-    #with warnings.catch_warnings():
-        #warnings.simplefilter("ignore", category=UserWarning)
-    main()
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore",category=FutureWarning)
+        main()
