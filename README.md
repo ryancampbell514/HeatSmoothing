@@ -39,59 +39,6 @@ The code is tested with python3 and PyTorch v1.5.0 (along with torchvision and C
 
 Then clone this repository and run `cd HeatSmoothing`.
 
-### CIFAR-10 Experiments
-
-To begin, run `cd cifar10`.
-
-#### Training
-
-Train the base model, Cohen model, and Salman model by running
-```
-./run.sh
-```
-from the command line with the correct script selected on line 42.
-
-To train our averaged model, run
-```
-python train_ours.py --data-dir 'PATH TO CIFAR-10 DATASET' --init-model-dir 'DIRECTORY OF THE TRAINED BASE MODEL' --pth-name 'best.pth.tar'
-```
-from the command line.
-
-Alternatively, the four pretrained models can be downloaded [here](https://drive.google.com/file/d/1p0TXoOeQfvkgXkHqaXY7YAmjhRdmN-S8/view?usp=sharing).
-
-#### Certification
-
-As well as computing the certified *L2* certified radius, our certification code also computed classification and certification times. To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
-```
-python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar'
-```
-For the Cohen and Salman models, run
-```
-python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --is-cohen
-```
-Using the resulting .pkl dataframes, make the certification plot (Figure 3(a)) using the code provided in the notebook `figs/cert_plots.ipynb`.
-
-#### Attacking
-
-First, compute the *L*-bound from the paper for any of our baseline and our averaged models by running
-```
-python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar'
-```
-For the Cohen and Salman models, run
-```
-python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar' --is-cohen
-```
-
-Now it is time to perform the DDN and PGD attacks. First, **uncomment lines 94-95 in `/cifar10/attack/salman_attacks.py`**. When attacking our models, we want to terminate the attack if the model is successfully adversarially perturbed. To attack our baseline and our averaged models, cd into `attack` and run the following from the command line
-```
-python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'top1' --attack 'DDN or PGD'
-```
-To attack the Cohen and Salman models, run
-```
-python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'cohen' --attack 'DDN or PGD'
-```
-Using the resulting .npz adversarial distances, make the attack curves (Figures 4(a)(c)) using the code provided in the notebook `figs/adv_plots.ipynb`.
-
 ### ImageNet-1k Experiments
 
 Now, run `cd imagenet`.
@@ -153,16 +100,56 @@ python run-attack-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATAS
 ```
 Using the resulting .npz adversarial distances, make the attack curves (Figures 4(b)(d)) using the code provided in the notebook `figs/adv_plots.ipynb`.
 
-<!-- ## Citations
+### CIFAR-10 Experiments
 
-Please cite as
+Begin by running `cd cifar10`.
+
+#### Training
+
+Train the base model, Cohen model, and Salman model by running
 ```
-@misc{campbell2020deterministic,
-    title={Deterministic Gaussian Averaged Neural Networks},
-    author={Ryan Campbell and Chris Finlay and Adam M Oberman},
-    year={2020},
-    eprint={2006.06061},
-    archivePrefix={arXiv},
-    primaryClass={cs.LG}
-}
-``` -->
+./run.sh
+```
+from the command line with the correct script selected on line 42.
+
+To train our averaged model, run
+```
+python train_ours.py --data-dir 'PATH TO CIFAR-10 DATASET' --init-model-dir 'DIRECTORY OF THE TRAINED BASE MODEL' --pth-name 'best.pth.tar'
+```
+from the command line.
+
+Alternatively, the four pretrained models can be downloaded [here](https://drive.google.com/file/d/1p0TXoOeQfvkgXkHqaXY7YAmjhRdmN-S8/view?usp=sharing).
+
+#### Certification
+
+As well as computing the certified *L2* certified radius, our certification code also computed classification and certification times. To certify the baseline and our adveraged models, cd into `certify` and run the following from the command line,
+```
+python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar'
+```
+For the Cohen and Salman models, run
+```
+python certify.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --is-cohen
+```
+Using the resulting .pkl dataframes, make the certification plot (Figure 3(a)) using the code provided in the notebook `figs/cert_plots.ipynb`.
+
+#### Attacking
+
+First, compute the *L*-bound from the paper for any of our baseline and our averaged models by running
+```
+python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar'
+```
+For the Cohen and Salman models, run
+```
+python test_statistics.py --data-dir 'LOCATION OF DATA' --model-dir 'WHERE MODEL IS STORED' --pth-name 'PATH NAME.pth.tar' --is-cohen
+```
+
+Now it is time to perform the DDN and PGD attacks. First, **uncomment lines 94-95 in `/cifar10/attack/salman_attacks.py`**. When attacking our models, we want to terminate the attack if the model is successfully adversarially perturbed. To attack our baseline and our averaged models, cd into `attack` and run the following from the command line
+```
+python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'top1' --attack 'DDN or PGD'
+```
+To attack the Cohen and Salman models, run
+```
+python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DIRECTORY' --pth-name 'MODEL PATH.pth.tar' --criterion 'cohen' --attack 'DDN or PGD'
+```
+Using the resulting .npz adversarial distances, make the attack curves (Figures 4(a)(c)) using the code provided in the notebook `figs/adv_plots.ipynb`.
+
