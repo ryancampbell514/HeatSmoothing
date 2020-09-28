@@ -4,14 +4,14 @@
 # nproc_per_node is the number of GPUs you want to use
 
 # Set path to ImageNet data storage
-#IMGDATA='/PATH/TO/IMAGENET/DATASET/DIRECTORIES'
-IMGDATA='/mnt/data/scratch/data/imagenet'
+IMGDATA='/PATH/TO/IMAGENET/DATASET/DIRECTORIES'
+#IMGDATA='/mnt/data/scratch/data/imagenet'  # example
 
 TIMESTAMP=`date +%y-%m-%dT%H%M%S`  # Use this in LOGDIR
 
 # The script assumes you have a local scratch drive
-#SCRATCH='/PATH/TO/SCRATCH/DIRECTORY'
-SCRATCH='/mnt/data/scratch/'$USER-'runs/'$TIMESTAMP
+SCRATCH='/PATH/TO/SCRATCH/DIRECTORY'
+#SCRATCH='/mnt/data/scratch/'$USER-'runs/'$TIMESTAMP  # example
 
 NAME='imagenet-pderun' #$TIMESTAMP
 DIR='runs/'$NAME
@@ -31,7 +31,7 @@ python  ./train_ours.py $IMGDATA \
   --init-bn0 \
   --std 0.25 \
   --gamma 1.0 \
-  --init-pth '/home/campus/ryan.campbell2/GaussianNets/imagenet/runs/base-model/model_best.pth.tar' \
+  --init-pth '/PATH/TO/BASELINE/IMAGENET/PYTORCH/MODEL' \
   --start-epoch 15 \
   --end-epoch 28 \
   --print-freq 5 \
