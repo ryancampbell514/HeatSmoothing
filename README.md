@@ -110,7 +110,7 @@ Using this initial model, train the deterministic averaged model by running
 ```
 ./run_ours.sh
 ```
-Alternatively, you can download the pretrained version of these two models, along with the pretrained Cohen and Salman models [here](https://drive.google.com/file/d/1Gvt6zNAnAAZaOiPWcCc_CzkFJV3k-_GL/view?usp=sharing).
+Alternatively, you can download the pretrained version of these two models, along with the pretrained Cohen and Salman models [here](https://drive.google.com/file/d/1zbvHjb8a5gtGKPN99lG9ZWSWR_In2Qvn/view?usp=sharing).
 
 #### Certification
 
