@@ -1,8 +1,8 @@
 # HeatSmoothing
 
-## Deterministic Averaging Neural Netowrks
+## Adversarial Boot Camp: label free certified robustness in one epoch
 
-The following code associated with [Deterministic Gaussian Averaged Neural Networks](https://arxiv.org/abs/2006.06061) submitted to NeurIPS 2020. We implement a variational method to deterministically average DNNs.
+The following code associated with the paper submitted to ICLR 2021. We implement a variational method to deterministically average DNNs.
 
 Randomizd smoothing is a known stochastic method to achieve a Gaussian average of some initial model. However, we can also achieve a Gaussian averaged model by training with some regularized loss (see Figure 1). In this work, we present an iterative determinmistic smoothing method for classification neural networks, as opposed to well known stochastic methods. This form of iterative smoothing is illustrated in Figure 2.
 
@@ -98,7 +98,7 @@ Now, run `cd imagenet`.
 
 #### Training
 
-Here, we use code modified from [Tulip](https://github.com/cfinlay/tulip/tree/master/imagenet) and [Train ImageNet in 18 minutes](https://github.com/cybertronai/imagenet18). This fast ImageNet training is obtained by training on smaller images. If you run locally, you may need to download the special ImageNet dataset yourself from [here](https://s3.amazonaws.com/yaroslavvb2/data/imagenet18.tar). This faster training is achieved by training on special smaller images for the first 15 epochs or so.
+Here, we use code modified from [Train ImageNet in 18 minutes](https://github.com/cybertronai/imagenet18). If you run locally, you may need to download the special ImageNet dataset yourself from [here](https://s3.amazonaws.com/yaroslavvb2/data/imagenet18.tar). This faster training is achieved by training on special smaller images for the first 15 epochs or so.
 
 To train a base model, simply execute
 ```
@@ -153,7 +153,7 @@ python run-attack-salman.py --datadir 'DIRECTORY WHERE IMAGENET VALIDATION DATAS
 ```
 Using the resulting .npz adversarial distances, make the attack curves (Figures 4(b)(d)) using the code provided in the notebook `figs/adv_plots.ipynb`.
 
-## Citations
+<!-- ## Citations
 
 Please cite as
 ```
@@ -165,4 +165,4 @@ Please cite as
     archivePrefix={arXiv},
     primaryClass={cs.LG}
 }
-```
+``` -->
