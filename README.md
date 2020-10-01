@@ -4,16 +4,27 @@
 
 The following code associated with the paper submitted to ICLR 2021. We implement a variational method to deterministically average DNNs.
 
-Randomizd smoothing is a known stochastic method to achieve a Gaussian average of some initial model. However, we can also achieve a Gaussian averaged model by training with some regularized loss (see Figure 1). In this work, we present an iterative determinmistic smoothing method for classification neural networks, as opposed to well known stochastic methods. This form of iterative smoothing is illustrated in Figure 2.
+Randomizd smoothing is a known stochastic method to achieve a Gaussian average of some initial model. However, we can also achieve a Gaussian averaged model by training with some regularized loss (see Figure 1). In this work, we present an iterative determinmistic smoothing method for classification neural networks, as opposed to well known stochastic methods. This iterative method is shown as follows,
+<p align="center">
+<img src="figs/eqn.png" width="400" >
+</p>
 
 In our experiments, we test our iterative method on the CIFAR-10 and ImageNet-1k datasets. We compare our models to the stochastically smoothed models of [Cohen et. al](https://github.com/locuslab/smoothing) and [Salman et. al](https://github.com/Hadisalman/smoothing-adversarial).
 
-The first experiment is to compute the L2 certified accurcies using the method implemented in [Cohen et. al](https://github.com/locuslab/smoothing/blob/master/code/core.py). Results are presented in Figure 3.
+The first experiment is to compute the L2 certified accurcies using the method implemented in [Cohen et. al](https://github.com/locuslab/smoothing/blob/master/code/core.py). We obtain the resulting plot
+<p align="center">
+<img src="figs/cert_plot.png" width="600" >
+</p>
+The corresponding plotting code is given in `figs/cert_plots.ipynb`.
 
-Next, we compute a lower bound on adversarial distance using the Lipschitz constant of averaged models. We also attack our models using the PGD and DDN attacks. Results for CIFAR-10 and ImageNet-1k are presented in Tables 1 & 2 and in Figure 4.
+Next, we compute a lower bound on adversarial distance using the Lipschitz constant of averaged models. We also attack our models using the PGD and DDN attacks. Results for CIFAR-10 and ImageNet-1k are presented as follows.
+<p align="center">
+<img src="figs/cifar_adv_plot.png" width="300" >
+<img src="figs/imagenet_adv_plot.png" width="300" >
+</p>
 Our attack curve plotting notebook is given in `figs/adv_plots.ipynb`.
 
-A result of deterministic smoothing is faster inference computation time. When performing classification, our models do not require a randomized smoothing procedure as is done with stochastic models from Cohen et. al. This faster computation time on the CPU and GPU in Tables 3 & 4.
+A result of deterministic smoothing is faster inference computation time. When performing classification, our models do not require a randomized smoothing procedure as is done with stochastic models from (Cohen et. al.)[https://github.com/locuslab/smoothing]
 
 ## Experiments
 
