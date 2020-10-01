@@ -13,18 +13,18 @@ In our experiments, we test our iterative method on the CIFAR-10 and ImageNet-1k
 
 The first experiment is to compute the L2 certified accurcies using the method implemented in [Cohen et. al](https://github.com/locuslab/smoothing/blob/master/code/core.py). We obtain the resulting plot
 <p align="center">
-<img src="figs/cert_plot.png" width="600" >
+<img src="figs/cert_plot.png" width="700" >
 </p>
 The corresponding plotting code is given in `figs/cert_plots.ipynb`.
 
 Next, we compute a lower bound on adversarial distance using the Lipschitz constant of averaged models. We also attack our models using the PGD and DDN attacks. Results for CIFAR-10 and ImageNet-1k are presented as follows.
 <p align="center">
-<img src="figs/cifar_adv_plot.png" width="300" >
-<img src="figs/imagenet_adv_plot.png" width="300" >
+<img src="figs/cifar_adv_plot.png" width="700" >
+<img src="figs/imagenet_adv_plot.png" width="700" >
 </p>
 Our attack curve plotting notebook is given in `figs/adv_plots.ipynb`.
 
-A result of deterministic smoothing is faster inference computation time. When performing classification, our models do not require a randomized smoothing procedure as is done with stochastic models from (Cohen et. al.)[https://github.com/locuslab/smoothing]
+A result of deterministic smoothing is faster inference computation time. When performing classification, our models do not require a randomized smoothing procedure as is done with stochastic models from [Cohen et al.](https://github.com/locuslab/smoothing)
 
 ## Experiments
 
