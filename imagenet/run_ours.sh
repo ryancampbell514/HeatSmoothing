@@ -30,6 +30,7 @@ python  ./train_ours.py $IMGDATA \
   --workers=4 \
   --init-bn0 \
   --std 0.25 \
+  --num-timesteps 1 \
   --gamma 1.0 \
   --init-pth '/PATH/TO/BASELINE/IMAGENET/PYTORCH/MODEL' \
   --start-epoch 15 \

@@ -1,5 +1,5 @@
 """ PDE training.
-    This is the alternative way that Adam suggested on 11-08-2020 """
+    This is the alternative way that that is not computationally expensive """
 
 import yaml
 import argparse
@@ -55,7 +55,7 @@ parser.add_argument('--std', type=float, default=0.25,
                     help='std of Normal distribution')
 parser.add_argument('--gamma', type=float, default=1.0,
                     help='scaling correction term')
-parser.add_argument('--num-timesteps', type=int, default=5,
+parser.add_argument('--num-timesteps', type=int, default=1,
                     help='number of finite-difference timesteps to perform')
 parser.add_argument('--seed', type=int, default=0)
 parser.add_argument('--train-batch-size', type=int, default=32)
