@@ -148,3 +148,16 @@ python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DI
 ```
 Using the resulting .npz adversarial distances, make the attack curves (Figures 4(a)(c)) using the code provided in the notebook `figs/adv_plots.ipynb`.
 
+## Citatation
+
+Please cite this work using
+```
+@misc{campbell2020adversarial,
+      title={Adversarial Boot Camp: label free certified robustness in one epoch}, 
+      author={Ryan Campbell and Chris Finlay and Adam M Oberman},
+      year={2020},
+      eprint={2010.02508},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
