@@ -2,7 +2,7 @@
 
 ## Adversarial Boot Camp: label free certified robustness in one epoch
 
-The following code associated with the paper submitted to ICLR 2021. We implement a variational method to deterministically average DNNs.
+The following code associated with the [paper](https://arxiv.org/abs/2010.02508) submitted to ICLR 2021. We implement a variational method to deterministically average DNNs.
 
 Randomizd smoothing is a known stochastic method to achieve a Gaussian average of some initial model. However, we can also achieve a Gaussian averaged model by training with some regularized loss (see Figure 1). In this work, we present an iterative determinmistic smoothing method for classification neural networks, as opposed to well known stochastic methods. This iterative method is shown as follows,
 <p align="center">
