@@ -148,7 +148,7 @@ python run-attack.py --data-dir 'WHERE THE DATA IS STORED' --model-dir 'MODEL DI
 ```
 Using the resulting .npz adversarial distances, make the attack curves (Figures 4(a)(c)) using the code provided in the notebook `figs/adv_plots.ipynb`.
 
-## Citatation
+## Citing our Work
 
 Please cite this work using
 ```
