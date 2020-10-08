@@ -9,6 +9,8 @@ Randomizd smoothing is a known stochastic method to achieve a Gaussian average o
 <img src="figs/eqn.png" width="400" >
 </p>
 
+where the gradient-norm-squared penalization term of the model output is estimated via the *Johnson–Lindenstrauss lemma*.
+
 In our experiments, we test our iterative method on the CIFAR-10 and ImageNet-1k datasets. We compare our models to the stochastically smoothed models of [Cohen et. al](https://github.com/locuslab/smoothing) and [Salman et. al](https://github.com/Hadisalman/smoothing-adversarial).
 
 The first experiment is to compute the L2 certified accurcies using the method implemented in [Cohen et. al](https://github.com/locuslab/smoothing/blob/master/code/core.py). We obtain the resulting plot
